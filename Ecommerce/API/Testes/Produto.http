@@ -1,0 +1,5 @@
+### RAIZ DO PROJETO
+GET http://localhost:5219
+
+### LISTAR PRODUTOS
+GET http://localhost:5219/api/produto/listar
