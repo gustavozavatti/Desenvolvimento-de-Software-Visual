@@ -1,18 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
-List<Produto> produtos = new List<Produto>
-{
-    new Produto { Nome = "Notebook" },
-    new Produto { Nome = "Mouse" },
-    new Produto { Nome = "Teclado" },
-    new Produto { Nome = "Monitor" },
-    new Produto { Nome = "Headset" },
-    new Produto { Nome = "Webcam" },
-    new Produto { Nome = "Impressora" },
-    new Produto { Nome = "Pen Drive" },
-    new Produto { Nome = "HD Externo" },
-    new Produto { Nome = "Celular" }
-};
+List<Produto> produtos = new List<Produto>();
 
 //FUNCIONALIDADES - EndPoint
 //Requisições
@@ -21,11 +9,21 @@ List<Produto> produtos = new List<Produto>
 //Resposta
 // - Dado/Informação
 
+//GET: http://localhost:5219
 app.MapGet("/", () => "API do Ecommerce");
 
+//GET: http://localhost:5219/api/produto/listar
 app.MapGet("/api/produto/listar", () =>
 {
     return produtos;
 });
+
+//POST: http://localhost:5219/api/produto/cadastrar
+app.MapPost("/api/produto/cadastrar", (Produto produto) =>
+{
+    produtos.Add(produto);
+    return Results.Created("", produto);
+}
+);
 
 app.Run();

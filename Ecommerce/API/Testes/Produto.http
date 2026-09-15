@@ -3,3 +3,11 @@ GET http://localhost:5219
 
 ### LISTAR PRODUTOS
 GET http://localhost:5219/api/produto/listar
+
+### CADASTRAR PRODUTO
+POST http://localhost:5219/api/produto/cadastrar
+Content-Type: application/json
+
+{
+    "Nome": "Vibrador"
+}
