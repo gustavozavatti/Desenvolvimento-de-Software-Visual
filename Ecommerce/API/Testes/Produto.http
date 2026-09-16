@@ -9,5 +9,5 @@ POST http://localhost:5219/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "Nome": "Vibrador"
+    "Nome": ""
 }
