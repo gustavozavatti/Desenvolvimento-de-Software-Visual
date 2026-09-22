@@ -4,10 +4,13 @@ GET http://localhost:5219
 ### LISTAR PRODUTOS
 GET http://localhost:5219/api/produto/listar
 
+### BUSCAR PRODUTO
+GET http://localhost:5219/api/produto/buscar/Teclado
+
 ### CADASTRAR PRODUTO
 POST http://localhost:5219/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "Nome": ""
+    "Nome": "Teclado"
 }
