@@ -55,4 +55,42 @@ app.MapGet("/api/produto/buscar/{nome}", (string nome) =>
 
 });
 
+app.MapDelete("/api/produto/deletar/{nome}", (string nome) =>
+{
+
+    Produto? produtoCadastrado = produtos.FirstOrDefault(produto => produto.Nome == nome);
+
+    if (produtoCadastrado != null)
+    {
+        produtos.Remove(produtoCadastrado);
+        return Results.Ok($"Produto deletado com sucesso!");
+    }
+
+    return Results.NotFound("Produto não encontrado");
+});
+
+app.MapPut("/api/produto/atualizar/{nome}", (string nome, Produto produtoAlterado) =>
+{
+    if(produtoAlterado is null)
+        return Results.BadRequest("Produto inválido");
+
+    if (string.IsNullOrEmpty(produtoAlterado.Nome))
+        return Results.BadRequest("O nome do produto é obrigatório");
+    
+    if (produtos.FirstOrDefault(produtosCadastrados => produtosCadastrados.Nome == produtoAlterado.Nome) != null)
+        return Results.BadRequest("Esse produto já foi cadastrado");
+
+    foreach (Produto produtoCadastrado in produtos)
+    {
+        if (produtoCadastrado.Nome == nome)
+        {
+            produtoCadastrado.Nome = produtoAlterado.Nome;
+            return Results.Ok($"Produto atualizado com sucesso!");
+        }
+    }
+
+    return Results.NotFound("Produto não encontrado");
+
+});
+
 app.Run();

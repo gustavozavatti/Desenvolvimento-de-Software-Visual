@@ -14,3 +14,14 @@ Content-Type: application/json
 {
     "Nome": "Teclado"
 }
+
+### ATUALIZAR PRODUTO
+PUT http://localhost:5219/api/produto/atualizar/Teclado
+Content-Type: application/json
+
+{
+    "Nome": "Teclado Gamer"
+}
+
+### DELETAR PRODUTO
+DELETE http://localhost:5219/api/produto/deletar/Teclado%20Gamer
