@@ -36,40 +36,38 @@ app.MapPost("/api/produto/cadastrar", (Produto? produto) =>
         return Results.BadRequest("Esse produto já foi cadastrado");
 
     produtos.Add(produto);
-    return Results.Created("", produto);
+    return Results.Created(" ", produto);
 });
 
-//GET: http://localhost:5219/api/produto/buscar
+//GET: http://localhost:5219/api/produto/buscar/nome_produto
 app.MapGet("/api/produto/buscar/{nome}", (string nome) => 
 { 
-    
-    foreach (Produto produtoCadastrado in produtos)
+    Produto? produtoEncontrado = produtos.FirstOrDefault(p => p.Nome == nome);
+
+    if (produtoEncontrado != null)
     {
-        if (produtoCadastrado.Nome == nome)
-        {
-            return Results.Ok(produtoCadastrado);
-        }
+        return Results.Ok(produtoEncontrado);
     }
 
     return Results.NotFound("Produto não encontrado");
-
 });
 
-app.MapDelete("/api/produto/deletar/{nome}", (string nome) =>
+//DELETE: http://localhost:5219/api/produto/deletar/id_produto
+app.MapDelete("/api/produto/deletar/{id}", (string id) =>
 {
+    Produto? produtoDeletar = produtos.FirstOrDefault(produto => produto.Id == id);
 
-    Produto? produtoCadastrado = produtos.FirstOrDefault(produto => produto.Nome == nome);
-
-    if (produtoCadastrado != null)
+    if (produtoDeletar != null)
     {
-        produtos.Remove(produtoCadastrado);
-        return Results.Ok($"Produto deletado com sucesso!");
+        produtos.Remove(produtoDeletar);
+        return Results.Ok("Produto deletado com sucesso!");
     }
 
     return Results.NotFound("Produto não encontrado");
 });
 
-app.MapPut("/api/produto/atualizar/{nome}", (string nome, Produto produtoAlterado) =>
+//PUT: http://localhost:5219/api/produto/atualizar
+app.MapPut("/api/produto/atualizar/{id}", (string id, Produto produtoAlterado) =>
 {
     if(produtoAlterado is null)
         return Results.BadRequest("Produto inválido");
@@ -80,17 +78,15 @@ app.MapPut("/api/produto/atualizar/{nome}", (string nome, Produto produtoAlterad
     if (produtos.FirstOrDefault(produtosCadastrados => produtosCadastrados.Nome == produtoAlterado.Nome) != null)
         return Results.BadRequest("Esse produto já foi cadastrado");
 
-    foreach (Produto produtoCadastrado in produtos)
+    Produto? produtoEncontrado = produtos.FirstOrDefault(p => p.Id == id);  
+
+    if (produtoEncontrado != null)
     {
-        if (produtoCadastrado.Nome == nome)
-        {
-            produtoCadastrado.Nome = produtoAlterado.Nome;
-            return Results.Ok($"Produto atualizado com sucesso!");
-        }
+        produtoEncontrado.Nome = produtoAlterado.Nome;
+        return Results.Ok("Produto atualizado com sucesso!");
     }
 
     return Results.NotFound("Produto não encontrado");
-
 });
 
 app.Run();

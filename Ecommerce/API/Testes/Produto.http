@@ -5,23 +5,23 @@ GET http://localhost:5219
 GET http://localhost:5219/api/produto/listar
 
 ### BUSCAR PRODUTO
-GET http://localhost:5219/api/produto/buscar/Teclado
+GET http://localhost:5219/api/produto/buscar/Mouse
 
 ### CADASTRAR PRODUTO
 POST http://localhost:5219/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "Nome": "Teclado"
+    "Nome": "Mouse"
 }
 
+### DELETAR PRODUTO
+DELETE http://localhost:5219/api/produto/deletar/14a076c1-1449-4e5f-a299-6686c48811e0
+
 ### ATUALIZAR PRODUTO
-PUT http://localhost:5219/api/produto/atualizar/Teclado
+PUT http://localhost:5219/api/produto/atualizar/0427e51c-62d6-411a-8529-2bf1df6e5242
 Content-Type: application/json
 
 {
     "Nome": "Teclado Gamer"
 }
-
-### DELETAR PRODUTO
-DELETE http://localhost:5219/api/produto/deletar/Teclado%20Gamer
