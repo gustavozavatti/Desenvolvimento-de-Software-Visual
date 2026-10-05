@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 List<Produto> produtos = new List<Produto>();
@@ -67,7 +69,7 @@ app.MapDelete("/api/produto/deletar/{id}", (string id) =>
 });
 
 //PUT: http://localhost:5219/api/produto/atualizar
-app.MapPut("/api/produto/atualizar/{id}", (string id, Produto produtoAlterado) =>
+app.MapPut("/api/produto/atualizar/{id}", ([FromRoute] string id, [FromBody] Produto produtoAlterado) =>
 {
     if(produtoAlterado is null)
         return Results.BadRequest("Produto inválido");
