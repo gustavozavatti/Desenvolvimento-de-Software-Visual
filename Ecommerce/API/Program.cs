@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<AppDataContext>();
 var app = builder.Build();
 List<Produto> produtos = new List<Produto>();
 
@@ -16,17 +17,17 @@ List<Produto> produtos = new List<Produto>();
 app.MapGet("/", () => "API do Ecommerce");
 
 //GET: http://localhost:5219/api/produto/listar
-app.MapGet("/api/produto/listar", () =>
+app.MapGet("/api/produto/listar", ([FromServices] AppDataContext ctx) =>
 {
-    if (produtos.Count == 0)
+    if (ctx.Produtos.Count() == 0)
     {
         return Results.NotFound("Não existem produtos cadastrados");
     }
-    return Results.Ok(produtos);
+    return Results.Ok(ctx.Produtos.ToList());
 });
 
 //POST: http://localhost:5219/api/produto/cadastrar
-app.MapPost("/api/produto/cadastrar", (Produto? produto) =>
+app.MapPost("/api/produto/cadastrar", ([FromBody] Produto? produto, [FromServices] AppDataContext ctx) =>
 {
     if(produto is null)
         return Results.BadRequest("Produto inválido");
@@ -37,14 +38,15 @@ app.MapPost("/api/produto/cadastrar", (Produto? produto) =>
     if (produtos.FirstOrDefault(produtosCadastrados => produtosCadastrados.Nome == produto.Nome) != null)
         return Results.BadRequest("Esse produto já foi cadastrado");
 
-    produtos.Add(produto);
-    return Results.Created(" ", produto);
+    ctx.Produtos.Add(produto);
+    ctx.SaveChanges();
+    return Results.Created("", produto);
 });
 
 //GET: http://localhost:5219/api/produto/buscar/nome_produto
-app.MapGet("/api/produto/buscar/{nome}", (string nome) => 
+app.MapGet("/api/produto/buscar/{nome}", ([FromRoute] string nome, [FromServices] AppDataContext ctx) => 
 { 
-    Produto? produtoEncontrado = produtos.FirstOrDefault(p => p.Nome == nome);
+    Produto? produtoEncontrado = ctx.Produtos.FirstOrDefault(p => p.Nome == nome);
 
     if (produtoEncontrado != null)
     {
@@ -55,13 +57,14 @@ app.MapGet("/api/produto/buscar/{nome}", (string nome) =>
 });
 
 //DELETE: http://localhost:5219/api/produto/deletar/id_produto
-app.MapDelete("/api/produto/deletar/{id}", (string id) =>
+app.MapDelete("/api/produto/deletar/{id}", (string id, [FromServices] AppDataContext ctx) =>
 {
-    Produto? produtoDeletar = produtos.FirstOrDefault(produto => produto.Id == id);
+    Produto? produtoDeletar = ctx.Produtos.FirstOrDefault(produto => produto.Id == id);
 
     if (produtoDeletar != null)
     {
-        produtos.Remove(produtoDeletar);
+        ctx.Produtos.Remove(produtoDeletar);
+        ctx.SaveChanges();
         return Results.Ok("Produto deletado com sucesso!");
     }
 

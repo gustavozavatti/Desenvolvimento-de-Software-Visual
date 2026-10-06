@@ -5,14 +5,15 @@ GET http://localhost:5219
 GET http://localhost:5219/api/produto/listar
 
 ### BUSCAR PRODUTO
-GET http://localhost:5219/api/produto/buscar/Teclado
+GET http://localhost:5219/api/produto/buscar/Mou
 
 ### CADASTRAR PRODUTO
 POST http://localhost:5219/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "Nome": "Teclado"
+    "Nome": "Mouse",
+    "Valor": 75.99
 }
 
 ### ATUALIZAR PRODUTO
