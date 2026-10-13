@@ -5,24 +5,25 @@ GET http://localhost:5219
 GET http://localhost:5219/api/produto/listar
 
 ### BUSCAR PRODUTO
-GET http://localhost:5219/api/produto/buscar/Mou
+GET http://localhost:5219/api/produto/buscar/Mouse
 
 ### CADASTRAR PRODUTO
 POST http://localhost:5219/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "Nome": "Mouse",
-    "Valor": 75.99
+    "Nome": "Teclado",
+    "Valor": 119.99
 }
 
 ### ATUALIZAR PRODUTO
-PUT http://localhost:5219/api/produto/atualizar/Teclado
+PUT http://localhost:5219/api/produto/atualizar/5bb3efbc-02a0-4127-bc9b-1a8b1913152e
 Content-Type: application/json
 
 {
-    "Nome": "Teclado Gamer"
+    "Nome": "Mouse Gamer",
+    "Valor": 89.99
 }
 
 ### DELETAR PRODUTO
-DELETE http://localhost:5219/api/produto/deletar/Teclado%20Gamer
+DELETE http://localhost:5219/api/produto/deletar/e911618c-6994-408e-8e45-eff90486b4a6
